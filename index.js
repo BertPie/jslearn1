@@ -17,7 +17,7 @@ function applyPathSettings() {
   var path = window.location.pathname;
   switch (path) {
     case '/':
-      setGallerySettings();
+      displayGallery();
       break;
     case '/create':
       setCreateSettings();
@@ -28,9 +28,31 @@ function applyPathSettings() {
   }
 }
 
-function setGallerySettings() {
-  document.title = "Gallery | Academy"
+function displayGallery() {
+  document.title = "Gallery | Academy";
   document.getElementById("gallery").style.display = 'inline';
+  fetchImages();
+}
+
+function fetchImages() {
+  fetch('http://localhost:3000/images')
+    .then(resp => resp.json())
+    .then(displayJson)
+}
+
+function displayJson(json){
+  const gallery = document.querySelector('#gallery');
+  for(var obj of json){
+    let galleryBox = document.createElement('div');
+    galleryBox.className = "gallery-box";
+    gallery.appendChild(galleryBox);
+
+    let img = document.createElement('img');
+    img.src = obj.src;
+    galleryBox.appendChild(img);
+  
+    console.log(obj.title)
+  }
 }
 
 function setCreateSettings() {
