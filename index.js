@@ -40,9 +40,9 @@ function fetchImages() {
     .then(displayJson)
 }
 
-function displayJson(json){
+function displayJson(json) {
   const gallery = document.querySelector('#gallery');
-  for(var obj of json){
+  for (var obj of json) {
     let galleryBox = document.createElement('div');
     galleryBox.className = "gallery-box";
     gallery.appendChild(galleryBox);
@@ -54,6 +54,7 @@ function displayJson(json){
     let button = document.createElement('button');
     button.className = "delete-button";
     button.textContent = "delete";
+    button.onclick = function(){deleteItem(3)};
     galleryBox.appendChild(button);
 
     let img = document.createElement('img');
@@ -62,6 +63,10 @@ function displayJson(json){
 
     console.log(obj.title)
   }
+}
+
+function deleteItem(id){
+  window.location.href = "http://localhost:3000/images";
 }
 
 function setCreateSettings() {
