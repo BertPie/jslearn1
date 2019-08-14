@@ -1,33 +1,23 @@
-
-// Routes:
-//   '' - gallery page
-//   '/' - gallery page
-//   '/images' - gallery page
-//   'images/:id' - single image page
-//   'create' - new image page
-
 window.addEventListener('DOMContentLoaded', (event) => {
-  applyPathSettings()
-  console.log('path: ', window.location.pathname); // can be removed
-
-  // TODO: your code is here
+  applyPathSettings();
 });
 
 function applyPathSettings() {
-  var path = window.location.pathname;
+  let path = window.location.pathname;
   switch (path) {
-    case '/':
-      displayGallery();
-      break;
     case '/create':
-      setCreateSettings();
+      displayCreate();
       break;
     case '/images':
-      setImageSettings();
+      displayImage();
+      break;
+    default:
+      displayGallery();
       break;
   }
 }
 
+// gallery ---------------------------------------------------------------------------------
 function displayGallery() {
   document.title = "Gallery | Academy";
   document.getElementById("gallery").style.display = 'inline';
@@ -54,27 +44,62 @@ function displayJson(json) {
     let button = document.createElement('button');
     button.className = "delete-button";
     button.textContent = "delete";
-    button.onclick = function(){deleteItem(3)};
+    button.onclick = function () { deleteItem(obj.id) };
     galleryBox.appendChild(button);
 
     let img = document.createElement('img');
     img.src = obj.src;
     galleryBox.appendChild(img);
-
-    console.log(obj.title)
   }
 }
 
-function deleteItem(id){
+function deleteItem(id) {
   let deleteEndPoint = "http://localhost:3000/images/" + id;
-  fetch(deleteEndPoint, {method : 'delete'});
+  fetch(deleteEndPoint, { method: 'delete' });
 }
-function setCreateSettings() {
+
+// create ---------------------------------------------------------------------------------
+function displayCreate() {
   document.title = "Create | Academy"
   document.getElementById("create").style.display = 'inline';
 }
 
-function setImageSettings() {
+// image ----------------------------------------------------------------------------------
+function displayImage() {
+  console.log('-- invoking: displayImage');
+
   document.title = "Image | Academy"
   document.getElementById("image").style.display = 'inline';
+  let id = getPathParam();
+  if (id == -1) {
+    window.location.href = 'http://localhost:8080';
+  }
+  var promise = fetchJsonOfImage(id);
+  promise.then(displayImageFromJson);
+}
+
+function getPathParam() {
+  console.log('-- invoking: getPathParam');
+
+  let regex = /^\?image=(\d+)$/;
+  let search = window.location.search;
+  if (!regex.test(search)) {
+    return -1;
+  }
+  let result = regex.exec(search);
+  return result[1];
+}
+
+function fetchJsonOfImage(id) {
+  console.log('-- invoking: displayImageWithId');
+
+  return fetch('http://localhost:3000/images/' + id)
+    .then(resp => resp.json());
+}
+
+function displayImageFromJson(result) {
+  console.log('-- invoking: displayImageWithId');
+
+  imageSrc = result.src;
+  document.getElementById("display-image").src = imageSrc;
 }
