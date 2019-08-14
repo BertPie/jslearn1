@@ -60,8 +60,19 @@ function deleteItem(id) {
 
 // create ---------------------------------------------------------------------------------
 function displayCreate() {
+  console.log('-- invoking: displayCreate');
+
   document.title = "Create | Academy"
   document.getElementById("create").style.display = 'inline';
+
+  let button = document.getElementById('submit-button');
+  button.onclick = function () { sendForm() }
+}
+
+function sendForm() {
+  console.log('-- invoking: sendForm');
+
+  console.log("hello!");
 }
 
 // image ----------------------------------------------------------------------------------
