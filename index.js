@@ -100,6 +100,8 @@ function fetchJsonOfImage(id) {
 function displayImageFromJson(result) {
   console.log('-- invoking: displayImageWithId');
 
-  imageSrc = result.src;
-  document.getElementById("display-image").src = imageSrc;
+  document.getElementById("image-title").textContent = result.title;
+  document.getElementById("image-author").textContent = result.author;
+  document.getElementById("image-description").textContent = result.description;
+  document.getElementById("display-image").src = result.src;
 }
