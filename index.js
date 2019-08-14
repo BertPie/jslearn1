@@ -66,9 +66,9 @@ function displayJson(json) {
 }
 
 function deleteItem(id){
-  window.location.href = "http://localhost:3000/images";
+  let deleteEndPoint = "http://localhost:3000/images/" + id;
+  fetch(deleteEndPoint, {method : 'delete'});
 }
-
 function setCreateSettings() {
   document.title = "Create | Academy"
   document.getElementById("create").style.display = 'inline';
